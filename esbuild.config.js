@@ -6,7 +6,8 @@ import esbuildMxnCopy from 'esbuild-plugin-mxn-copy';
     entryPoints: ['./src/main.ts'],
     bundle: true,
     outfile: './build/src/main.js',
-    minify: true,
+    // minify: true,
+    sourcemap: true,
     plugins: [
       esbuildMxnCopy({
         copy: [
