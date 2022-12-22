@@ -1,5 +1,5 @@
 {
-  "name": "@superRaptor911/render3D",
+  "name": "@super_raptor911/render3d",
   "version": "0.0.1",
   "description": "A simple 3D graphics framework wsing webgl",
   "type": "module",
