@@ -1,11 +1,19 @@
 {
-  "name": "R3D",
+  "name": "render3D",
   "version": "0.0.1",
   "description": "A simple 3D graphics framework wsing webgl",
   "type": "module",
+  "main": "./dist/lib/es6/src/index.js",
+  "module": "./dist/lib/es5/src/index.js",
   "repository": "https://github.com/superRaptor911/R3D.git",
   "engines": {
     "node": ">= 16.13"
+  },
+  "dependencies": {
+    "gl-matrix": "^3.4.3",
+    "tslib": "~2.4",
+    "webgl-gltf": "^0.3.3",
+    "webgl-obj-loader": "^2.0.8"
   },
   "devDependencies": {
     "@types/jest": "~29.1",
@@ -40,16 +48,12 @@
     "build": "node esbuild.config.js",
     "lint": "eslint . --ext .ts --ext .mts",
     "prettier": "prettier --config .prettierrc --write .",
+    "compile": "rm -rf dist/lib && tsc && tsc --build tsconfig.es5.json",
     "watch": "npm-watch"
+
   },
   "author": "superRaptor911",
   "license": "Apache-2.0",
-  "dependencies": {
-    "gl-matrix": "^3.4.3",
-    "tslib": "~2.4",
-    "webgl-gltf": "^0.3.3",
-    "webgl-obj-loader": "^2.0.8"
-  },
   "volta": {
     "node": "16.17.0"
   }

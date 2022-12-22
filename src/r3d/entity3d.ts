@@ -1,4 +1,4 @@
-import { mat4, quat, quat2, vec3 } from 'gl-matrix';
+import { mat4, quat2, vec3 } from 'gl-matrix';
 
 export class Entity3D {
   mMatrix = mat4.create();

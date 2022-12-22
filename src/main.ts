@@ -1,7 +1,5 @@
-import { createWebGLProgram } from './r3d/shaders';
 import { loadModel } from './r3d/models';
-import { Mesh, MeshWithBuffers } from 'webgl-obj-loader';
-import { mat4, vec3 } from 'gl-matrix';
+import { MeshWithBuffers } from 'webgl-obj-loader';
 import { Renderer3D } from './r3d/renderer3d';
 import { Object3D } from './r3d/object3d';
 import { Camera3D } from './r3d/camera3d';
