@@ -1075,7 +1075,7 @@ get-stream@^6.0.0:
   resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-6.0.1.tgz#a262d8eef67aced57c2852ad6167526a43cbf7b7"
   integrity sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==
 
-gl-matrix@^3.4.3:
+gl-matrix@^3.3.0, gl-matrix@^3.4.3:
   version "3.4.3"
   resolved "https://registry.yarnpkg.com/gl-matrix/-/gl-matrix-3.4.3.tgz#fc1191e8320009fd4d20e9339595c6041ddc22c9"
   integrity sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==
@@ -1952,6 +1952,13 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
+
+webgl-gltf@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/webgl-gltf/-/webgl-gltf-0.3.3.tgz#0a048069c775297b626f691275ee41ce60dd740e"
+  integrity sha512-2S31ABMk32NAspWOuyaUWjU5gzl8r/OQFQBewnetEK4C0FfZyngfeZ4IgqizraQGbAM8apz8ZC2hHVaKQDgBNg==
+  dependencies:
+    gl-matrix "^3.3.0"
 
 webgl-obj-loader@^2.0.8:
   version "2.0.8"

@@ -13,8 +13,25 @@ export class Entity3D {
 
   _isDirty = false;
 
+  parent: Entity3D | null = null;
+  children: Entity3D[] = [];
+
   constructor() {
     //
+  }
+
+  addChild(child: Entity3D): void {
+    if (!child.parent) {
+      child.parent = this;
+      this.children.push(child);
+    }
+  }
+
+  removeChild(child: Entity3D): void {
+    if (child.parent == this) {
+      child.parent = null;
+      this.children = this.children.filter((item) => item != child);
+    }
   }
 
   setPosition(x: number, y: number, z: number): void {

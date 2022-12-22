@@ -1,3 +1,4 @@
+import { mat4 } from 'gl-matrix';
 import { Camera3D } from './camera3d';
 import { Object3D } from './object3d';
 import { createWebGLProgram } from './shaders';
@@ -58,15 +59,27 @@ export class Renderer3D {
     this.pMatrixLoc = pMatrixLoc;
   }
 
+  _render(obj: Object3D, wMatrix: mat4): void {
+    mat4.multiply(wMatrix, wMatrix, obj.mMatrix);
+    obj._update();
+    this.gl.uniformMatrix4fv(this.mMatrixLoc, false, wMatrix);
+    obj.draw(this.gl);
+
+    obj.children.forEach((child) => {
+      if (child instanceof Object3D) this._render(child, wMatrix);
+    });
+  }
+
   render(obj: Object3D, camera: Camera3D): void {
     const gl = this.gl;
     camera._update();
-    obj._update();
 
     gl.useProgram(this.defaultProgram);
     gl.uniformMatrix4fv(this.vMatrixLoc, false, camera.vMatrix);
     gl.uniformMatrix4fv(this.pMatrixLoc, false, camera.pMatrix);
-    gl.uniformMatrix4fv(this.mMatrixLoc, false, obj.mMatrix);
-    obj.render(gl);
+
+    // create world matrix
+    const wMatrix = mat4.create();
+    this._render(obj, wMatrix);
   }
 }

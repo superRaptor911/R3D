@@ -8,7 +8,7 @@ export class Object3D extends Entity3D {
     this.mesh = model;
   }
 
-  render(gl: WebGL2RenderingContext): void {
+  draw(gl: WebGL2RenderingContext): void {
     gl.bindBuffer(gl.ARRAY_BUFFER, this.mesh.vertexBuffer);
     gl.vertexAttribPointer(
       0,
