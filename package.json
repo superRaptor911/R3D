@@ -1,5 +1,5 @@
 {
-  "name": "render3D",
+  "name": "@superRaptor911/render3D",
   "version": "0.0.1",
   "description": "A simple 3D graphics framework wsing webgl",
   "type": "module",
@@ -52,7 +52,7 @@
     "watch": "npm-watch"
 
   },
-  "author": "superRaptor911",
+  "author": "super_raptor911",
   "license": "Apache-2.0",
   "volta": {
     "node": "16.17.0"
