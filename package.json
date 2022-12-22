@@ -1,8 +1,9 @@
 {
-  "name": "Game",
-  "version": "0.0.0",
-  "description": "GG",
+  "name": "R3D",
+  "version": "0.0.1",
+  "description": "A simple 3D graphics framework wsing webgl",
   "type": "module",
+  "repository": "https://github.com/superRaptor911/R3D.git",
   "engines": {
     "node": ">= 16.13"
   },
