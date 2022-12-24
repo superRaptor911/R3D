@@ -19,11 +19,10 @@ const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   obj2.translateY(-3);
   obj.addChild(obj2);
 
-  const rect = new Rectangle(gl);
+  const rect = new Rectangle(gl, 0.5, 0, 0.7, 0.5);
   // rect.setColor(1, 1, 1);
   const loop = (): void => {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    gl.enableVertexAttribArray(0);
 
     // obj.rotateZ(0.01);
     // cam.rotateY(0.01);

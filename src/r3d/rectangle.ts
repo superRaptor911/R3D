@@ -9,7 +9,7 @@ uniform mat3 uModel;
 out vec2 vTexCord;
 
 void main() {
-    gl_Position  = vec4(uModel * vec3(aPos, 1.0), 1.0);
+    gl_Position  = vec4((uModel * vec3(aPos, 1.0)).xy, 0.0, 1.0);
     vTexCord = aTexCord;
 }
 `;
@@ -24,19 +24,13 @@ uniform sampler2D uSampler;
 out vec4 fragColor;
 
 void main() {
-    fragColor = texture(uSampler, vTexCord) + uColor + vec4(1.0, 1.0, 1.0, 1.0);
+    fragColor = texture(uSampler, vTexCord) + uColor ;
 }
 `;
 
 export class Rectangle {
   static _vertices = new Float32Array([
-    -1, -1, 0, 0,
-
-    1, -1, 1, 1,
-
-    -1, 1, 0, 1,
-
-    1, 1, 1, 1,
+    -1, -1, 0, 0, 1, -1, 1, 1, -1, 1, 0, 1, 1, 1, 1, 1,
   ]);
   // static _uvs = new Float32Array([0, 1, 1, 1, 1, 0, 0, 0]);
   static _indices = new Uint16Array([0, 1, 2, 2, 1, 3]);
@@ -49,23 +43,27 @@ export class Rectangle {
   static _uColorLoc: WebGLUniformLocation;
   static _uSamplerLoc: WebGLUniformLocation;
 
-  width = 1;
-  height = 1;
+  _width = 1;
+  _height = 1;
 
   texture: WebGLTexture | null = null;
   color: vec4;
-  x = 0;
-  y = 0;
+  _x = 0;
+  _y = 0;
+
+  _mMatrix = mat3.create();
 
   _gl: WebGL2RenderingContext;
+  _isDirty = true;
 
   constructor(gl: WebGL2RenderingContext, x = 0, y = 0, width = 1, height = 1) {
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
+    this._x = x;
+    this._y = y;
+    this._width = width;
+    this._height = height;
     this._gl = gl;
     this.color = vec4.create();
+    this._update();
 
     if (!Rectangle._vertexBuffer) {
       const program = createWebGLProgram(gl, vShaderSource, fShaderSource);
@@ -117,15 +115,28 @@ export class Rectangle {
     this.color[3] = a;
   }
 
-  draw(): void {
-    const mMatrix = mat3.create();
-    mat3.translate(mMatrix, mMatrix, vec2.fromValues(this.x, this.y));
-    mat3.scale(
-      mMatrix,
-      mMatrix,
-      vec2.fromValues(1 / this.width, 1 / this.height),
-    );
+  _update(): void {
+    if (!this._isDirty) return;
 
+    const x = this._x - 0.5;
+    const y = this._y;
+
+    const proj = mat3.create();
+
+    mat3.projection(proj, 1280, 720);
+    mat3.scale(
+      this._mMatrix,
+      this._mMatrix,
+      vec2.fromValues(this._width, this._height),
+    );
+    mat3.translate(this._mMatrix, this._mMatrix, vec2.fromValues(x, y));
+
+    // mat3.multiply(this._mMatrix, trans, scale);
+    // mat3.multiply(this._mMatrix, this._mMatrix, proj);
+    this._isDirty = false;
+  }
+
+  draw(): void {
     const gl = this._gl;
     gl.useProgram(Rectangle._defaultProgram);
     gl.enableVertexAttribArray(0);
@@ -148,7 +159,7 @@ export class Rectangle {
       this.color[2],
       this.color[3],
     );
-    gl.uniformMatrix3fv(Rectangle._uModelLoc, false, mMatrix);
+    gl.uniformMatrix3fv(Rectangle._uModelLoc, false, this._mMatrix);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, Rectangle._indexBuffer);
     gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
