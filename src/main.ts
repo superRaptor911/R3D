@@ -1,8 +1,8 @@
 import { loadModel } from './r3d/models';
 import { MeshWithBuffers } from 'webgl-obj-loader';
-import { Renderer3D } from './r3d/renderer3d';
 import { Object3D } from './r3d/object3d';
 import { Camera3D } from './r3d/camera3d';
+import { Rectangle } from './r3d/rectangle';
 
 const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   const model = (await loadModel(
@@ -10,9 +10,8 @@ const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
     'build/assets/models/untitled.obj',
   )) as MeshWithBuffers;
 
-  const render = new Renderer3D(gl);
-  const obj = new Object3D(model);
-  const obj2 = new Object3D(model);
+  const obj = new Object3D(gl, model);
+  const obj2 = new Object3D(gl, model);
   const cam = new Camera3D();
 
   cam.translateZ(2);
@@ -20,15 +19,18 @@ const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   obj2.translateY(-3);
   obj.addChild(obj2);
 
+  const rect = new Rectangle(gl);
+  // rect.setColor(1, 1, 1);
   const loop = (): void => {
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.enableVertexAttribArray(0);
 
-    obj.rotateZ(0.01);
+    // obj.rotateZ(0.01);
     // cam.rotateY(0.01);
     // console.log(cam.mMatrix);
 
-    render.render(obj, cam);
+    // obj.render(cam);
+    rect.draw();
     requestAnimationFrame(loop);
   };
 
