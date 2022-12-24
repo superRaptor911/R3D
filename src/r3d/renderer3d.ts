@@ -2,36 +2,7 @@ import { mat4 } from 'gl-matrix';
 import { Camera3D } from './camera3d';
 import { Object3D } from './object3d';
 import { createWebGLProgram } from './shaders';
-
-const vShaderSource = `#version 300 es
-layout(location=0) in vec3 aPos;
-layout(location=1) in vec2 aTexCord;
-
-uniform mat4 uModel;
-uniform mat4 uView;
-uniform mat4 uProjection;
-
-out vec2 vTexCord;
-
-void main() {
-    gl_Position  = uProjection * uView * uModel * vec4(aPos, 1.0);
-    vTexCord = aTexCord;
-}
-`;
-
-const fShaderSource = `#version 300 es
-precision mediump float;
-
-in vec2 vTexCord;
-uniform sampler2D uSampler;
-
-out vec4 fragColor;
-
-void main() {
-    // fragColor = texture(uSampler, vTexCord);
-    fragColor = vec4(1.0, 1.0, 1.0, 1.0);
-}
-`;
+import { fShaderSource, vShaderSource } from './shaders/basic3d';
 
 export class Renderer3D {
   gl: WebGL2RenderingContext;
@@ -70,11 +41,13 @@ export class Renderer3D {
     });
   }
 
-  render(obj: Object3D, camera: Camera3D): void {
+  render(obj: Object3D, camera: Camera3D, customProgram?: WebGLProgram): void {
     const gl = this.gl;
     camera._update();
 
-    gl.useProgram(this.defaultProgram);
+    if (customProgram) gl.useProgram(customProgram);
+    else gl.useProgram(this.defaultProgram);
+
     gl.uniformMatrix4fv(this.vMatrixLoc, false, camera.vMatrix);
     gl.uniformMatrix4fv(this.pMatrixLoc, false, camera.pMatrix);
 

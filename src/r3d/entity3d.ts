@@ -1,6 +1,7 @@
 import { mat4, quat2, vec3 } from 'gl-matrix';
+import { Entity } from './entity';
 
-export class Entity3D {
+export class Entity3D extends Entity {
   mMatrix = mat4.create();
   quat = quat2.create();
   x = 0;
@@ -13,25 +14,8 @@ export class Entity3D {
 
   _isDirty = false;
 
-  parent: Entity3D | null = null;
-  children: Entity3D[] = [];
-
   constructor() {
-    //
-  }
-
-  addChild(child: Entity3D): void {
-    if (!child.parent) {
-      child.parent = this;
-      this.children.push(child);
-    }
-  }
-
-  removeChild(child: Entity3D): void {
-    if (child.parent == this) {
-      child.parent = null;
-      this.children = this.children.filter((item) => item != child);
-    }
+    super();
   }
 
   setPosition(x: number, y: number, z: number): void {

@@ -2,6 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "./dist/lib/es5"
+    "outDir": "./lib/es5"
   }
 }

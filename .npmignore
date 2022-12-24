@@ -11,8 +11,7 @@ coverage
 
 # Transpiled files
 build/
-dist/
-lib/
+dist/lib/
 
 # VS Code
 .vscode
@@ -31,4 +30,4 @@ lib/
 .DS_Store
 .session.vim
 
-src/assets/
+src/
