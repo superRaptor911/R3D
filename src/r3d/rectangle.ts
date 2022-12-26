@@ -1,4 +1,4 @@
-import { mat3, vec2, vec3, vec4 } from 'gl-matrix';
+import { mat3, vec2, vec4 } from 'gl-matrix';
 import { createWebGLProgram } from './shaders';
 
 const vShaderSource = `#version 300 es
@@ -62,55 +62,55 @@ export class Rectangle {
   _gl: WebGL2RenderingContext;
   _isDirty = true;
 
+  _init(gl: WebGL2RenderingContext): void {
+    this._gl = gl;
+    const program = createWebGLProgram(gl, vShaderSource, fShaderSource);
+    if (!program) throw 'Failed to create default Rectangle shader';
+
+    const vBuffer = gl.createBuffer();
+    if (!vBuffer) throw 'Failed to create vertex buffer';
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, Rectangle._vertices, gl.STATIC_DRAW);
+
+    const iBuffer = gl.createBuffer();
+    if (!iBuffer) throw 'Failed to create vertex buffer';
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iBuffer);
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, Rectangle._indices, gl.STATIC_DRAW);
+
+    const uModelLoc = gl.getUniformLocation(program, 'uModel');
+    const uColorLoc = gl.getUniformLocation(program, 'uColor');
+    const uSamplerLoc = gl.getUniformLocation(program, 'uSampler');
+
+    if (!uModelLoc) {
+      throw 'Failed to get uModel uniform location';
+    }
+    if (!uColorLoc) {
+      throw 'Failed to get uColorLoc uniform location';
+    }
+
+    if (!uSamplerLoc) {
+      throw 'Failed to get SamplerLoc uniform location';
+    }
+
+    Rectangle._indexBuffer = iBuffer;
+    Rectangle._vertexBuffer = vBuffer;
+    Rectangle._defaultProgram = program;
+    Rectangle._uModelLoc = uModelLoc;
+    Rectangle._uColorLoc = uColorLoc;
+    Rectangle._uSamplerLoc = uSamplerLoc;
+  }
+
   constructor(gl: WebGL2RenderingContext, x = 0, y = 0, width = 1, height = 1) {
     this._x = x;
     this._y = y;
     this._width = width;
     this._height = height;
-    this._gl = gl;
     this.color = vec4.create();
     this._update();
 
-    if (!Rectangle._vertexBuffer) {
-      const program = createWebGLProgram(gl, vShaderSource, fShaderSource);
-      if (!program) throw 'Failed to create default Rectangle shader';
-
-      const vBuffer = gl.createBuffer();
-      if (!vBuffer) throw 'Failed to create vertex buffer';
-
-      gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-      gl.bufferData(gl.ARRAY_BUFFER, Rectangle._vertices, gl.STATIC_DRAW);
-
-      const iBuffer = gl.createBuffer();
-      if (!iBuffer) throw 'Failed to create vertex buffer';
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, iBuffer);
-      gl.bufferData(
-        gl.ELEMENT_ARRAY_BUFFER,
-        Rectangle._indices,
-        gl.STATIC_DRAW,
-      );
-
-      const uModelLoc = gl.getUniformLocation(program, 'uModel');
-      const uColorLoc = gl.getUniformLocation(program, 'uColor');
-      const uSamplerLoc = gl.getUniformLocation(program, 'uSampler');
-
-      if (!uModelLoc) {
-        throw 'Failed to get uModel uniform location';
-      }
-      if (!uColorLoc) {
-        throw 'Failed to get uColorLoc uniform location';
-      }
-
-      if (!uSamplerLoc) {
-        throw 'Failed to get SamplerLoc uniform location';
-      }
-
-      Rectangle._indexBuffer = iBuffer;
-      Rectangle._vertexBuffer = vBuffer;
-      Rectangle._defaultProgram = program;
-      Rectangle._uModelLoc = uModelLoc;
-      Rectangle._uColorLoc = uColorLoc;
-      Rectangle._uSamplerLoc = uSamplerLoc;
+    if (!this._gl || this._gl != gl) {
+      this._init(gl);
     }
   }
 
