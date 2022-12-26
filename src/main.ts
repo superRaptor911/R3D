@@ -1,4 +1,4 @@
-import { loadModel } from './r3d/models';
+import { loadObjModel } from './r3d/models';
 import { MeshWithBuffers } from 'webgl-obj-loader';
 import { Object3D } from './r3d/object3d';
 import { Camera3D } from './r3d/camera3d';
@@ -6,7 +6,7 @@ import { Rectangle } from './r3d/rectangle';
 import { createTextureFromImage, loadImage } from './r3d/textures';
 
 const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
-  const model = (await loadModel(
+  const model = (await loadObjModel(
     gl,
     'build/assets/models/untitled.obj',
   )) as MeshWithBuffers;
@@ -23,7 +23,7 @@ const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   obj2.translateY(-3);
   obj.addChild(obj2);
 
-  const rect = new Rectangle(gl, 0.2, 0.2, 0.7, 0.7);
+  const rect = new Rectangle(gl, 1, 0.2, -0.7, 0.7);
   rect.texture = tex;
   // rect.setColor(1, 1, 1);
   const loop = (): void => {

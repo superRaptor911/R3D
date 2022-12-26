@@ -1,6 +1,6 @@
 import { initMeshBuffers, Mesh, MeshWithBuffers } from 'webgl-obj-loader';
 
-export const loadModel = async (
+export const loadObjModel = async (
   gl: WebGL2RenderingContext,
   path: string,
   init = true,
@@ -13,4 +13,13 @@ export const loadModel = async (
     initMeshBuffers(gl, mesh);
   }
   return mesh;
+};
+
+export const createOBJMesh = (
+  gl: WebGL2RenderingContext,
+  objData: string,
+): MeshWithBuffers => {
+  const mesh = new Mesh(objData);
+  initMeshBuffers(gl, mesh);
+  return mesh as MeshWithBuffers;
 };
