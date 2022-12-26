@@ -3,12 +3,16 @@ import { MeshWithBuffers } from 'webgl-obj-loader';
 import { Object3D } from './r3d/object3d';
 import { Camera3D } from './r3d/camera3d';
 import { Rectangle } from './r3d/rectangle';
+import { createTextureFromImage, loadImage } from './r3d/textures';
 
 const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   const model = (await loadModel(
     gl,
     'build/assets/models/untitled.obj',
   )) as MeshWithBuffers;
+
+  const img = await loadImage('build/assets/images/tank.jpg');
+  const tex = createTextureFromImage(gl, img);
 
   const obj = new Object3D(gl, model);
   const obj2 = new Object3D(gl, model);
@@ -19,7 +23,8 @@ const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   obj2.translateY(-3);
   obj.addChild(obj2);
 
-  const rect = new Rectangle(gl, 0.5, 0, 0.7, 0.5);
+  const rect = new Rectangle(gl, 0.2, 0.2, 0.7, 0.7);
+  rect.texture = tex;
   // rect.setColor(1, 1, 1);
   const loop = (): void => {
     gl.clear(gl.COLOR_BUFFER_BIT);
@@ -54,7 +59,7 @@ const main = async (): Promise<void> => {
   gl.clearColor(0.3, 0.3, 0.3, 1);
   gl.enable(gl.DEPTH_TEST);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+  // gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
   renderTest(gl);
 };

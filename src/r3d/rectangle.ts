@@ -1,4 +1,4 @@
-import { mat3, vec2, vec4 } from 'gl-matrix';
+import { mat3, vec2, vec3, vec4 } from 'gl-matrix';
 import { createWebGLProgram } from './shaders';
 
 const vShaderSource = `#version 300 es
@@ -30,7 +30,13 @@ void main() {
 
 export class Rectangle {
   static _vertices = new Float32Array([
-    -1, -1, 0, 0, 1, -1, 1, 1, -1, 1, 0, 1, 1, 1, 1, 1,
+    0, 0, 0, 0,
+
+    1, 0, 1, 0,
+
+    0, 1, 0, 1,
+
+    1, 1, 1, 1,
   ]);
   // static _uvs = new Float32Array([0, 1, 1, 1, 1, 0, 0, 0]);
   static _indices = new Uint16Array([0, 1, 2, 2, 1, 3]);
@@ -118,21 +124,20 @@ export class Rectangle {
   _update(): void {
     if (!this._isDirty) return;
 
-    const x = this._x - 0.5;
+    const x = this._x;
     const y = this._y;
 
     const proj = mat3.create();
+    const scale = mat3.create();
+    const trans = mat3.create();
 
-    mat3.projection(proj, 1280, 720);
-    mat3.scale(
-      this._mMatrix,
-      this._mMatrix,
-      vec2.fromValues(this._width, this._height),
-    );
-    mat3.translate(this._mMatrix, this._mMatrix, vec2.fromValues(x, y));
+    mat3.projection(proj, 1, 1);
+    mat3.fromScaling(scale, vec2.fromValues(this._width, this._height));
+    mat3.fromTranslation(trans, vec2.fromValues(x, y));
 
-    // mat3.multiply(this._mMatrix, trans, scale);
-    // mat3.multiply(this._mMatrix, this._mMatrix, proj);
+    mat3.multiply(this._mMatrix, trans, scale);
+    mat3.multiply(this._mMatrix, proj, this._mMatrix);
+
     this._isDirty = false;
   }
 
