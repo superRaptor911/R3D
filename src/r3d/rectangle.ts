@@ -9,7 +9,7 @@ uniform mat3 uModel;
 out vec2 vTexCord;
 
 void main() {
-    gl_Position  = vec4((uModel * vec3(aPos, 1.0)).xy, 0.0, 1.0);
+    gl_Position  = vec4((uModel * vec3(aPos, 1.0)).xy, 0.9999, 1.0);
     vTexCord = aTexCord;
 }
 `;
@@ -29,16 +29,7 @@ void main() {
 `;
 
 export class Rectangle {
-  static _vertices = new Float32Array([
-    0, 0, 0, 0,
-
-    1, 0, 1, 0,
-
-    0, 1, 0, 1,
-
-    1, 1, 1, 1,
-  ]);
-  // static _uvs = new Float32Array([0, 1, 1, 1, 1, 0, 0, 0]);
+  static _vertices = new Float32Array([0, 0, 1, 0, 0, 1, 1, 1]);
   static _indices = new Uint16Array([0, 1, 2, 2, 1, 3]);
 
   static _vertexBuffer: WebGLBuffer;
@@ -148,8 +139,8 @@ export class Rectangle {
     gl.enableVertexAttribArray(1);
 
     gl.bindBuffer(gl.ARRAY_BUFFER, Rectangle._vertexBuffer);
-    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 4 * 4, 0);
-    gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 4 * 4, 4 * 2);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(1, 2, gl.FLOAT, false, 0, 0);
 
     if (this.texture) {
       gl.activeTexture(gl.TEXTURE0);

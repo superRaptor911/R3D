@@ -1,6 +1,6 @@
 {
   "name": "@super_raptor911/render3d",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "A simple 3D graphics framework wsing webgl",
   "type": "module",
   "main": "./lib/es6/src/index.js",
@@ -50,7 +50,8 @@
     "lint": "eslint . --ext .ts --ext .mts",
     "prettier": "prettier --config .prettierrc --write .",
     "compile": "rm -rf dist/lib && tsc && tsc --build tsconfig.es5.json",
-    "watch": "npm-watch"
+    "watch": "npm-watch",
+    "publish": "npm publish --access=public"
   },
   "author": "super_raptor911",
   "license": "Apache-2.0",

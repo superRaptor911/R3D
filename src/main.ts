@@ -21,20 +21,21 @@ const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   cam.translateZ(2);
 
   obj2.translateY(-3);
+  obj2.translateZ(1);
   obj.addChild(obj2);
 
   const rect = new Rectangle(gl, 1, 0.2, -0.7, 0.7);
   rect.texture = tex;
   // rect.setColor(1, 1, 1);
   const loop = (): void => {
-    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    // obj.rotateZ(0.01);
+    obj.rotateZ(0.01);
     // cam.rotateY(0.01);
     // console.log(cam.mMatrix);
 
-    // obj.render(cam);
     rect.draw();
+    obj.render(cam);
     requestAnimationFrame(loop);
   };
 
@@ -58,6 +59,7 @@ const main = async (): Promise<void> => {
   }
   gl.clearColor(0.3, 0.3, 0.3, 1);
   gl.enable(gl.DEPTH_TEST);
+  // gl.depthFunc(gl.GREATER);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   // gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
