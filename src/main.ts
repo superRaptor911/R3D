@@ -7,6 +7,7 @@ import { skinExperiment } from './exp/skin';
 import { basic3dQuad } from './exp/3d';
 import { gltfTest } from './exp/gltfTest';
 import { loadObjModel } from './r3d/utility';
+import { RectRenderer } from './r3d/rectRenderer';
 
 const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   const model = (await loadObjModel(
@@ -27,7 +28,8 @@ const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   obj2.translateZ(1);
   obj.addChild(obj2);
 
-  const rect = new Rectangle(gl, 1, 0.2, -0.7, 0.7);
+  const rect = new Rectangle(1, 0.2, -0.7, 0.7);
+  const rectRenderer = new RectRenderer(gl);
   rect.texture = tex;
   // rect.setColor(1, 1, 1);
   const loop = (): void => {
@@ -37,7 +39,7 @@ const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
     // cam.rotateY(0.01);
     // console.log(cam.mMatrix);
 
-    rect.draw();
+    rectRenderer.draw(rect);
     obj.render(cam);
     requestAnimationFrame(loop);
   };
