@@ -9,7 +9,7 @@ export class Drawable3D extends Entity3D {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  draw(_gl: WebGL2RenderingContext): void {
+  draw(): void {
     //
   }
 }

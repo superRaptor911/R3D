@@ -91,8 +91,8 @@ export class Object3D extends Drawable3D {
   }
 
   _renderChildren(obj: Object3D, wMatrix: mat4): void {
-    mat4.multiply(wMatrix, wMatrix, obj.mMatrix);
     obj._update();
+    mat4.multiply(wMatrix, wMatrix, obj.mMatrix);
     this.gl.uniformMatrix4fv(Object3D.mMatrixLoc, false, wMatrix);
     obj.draw();
 

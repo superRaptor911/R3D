@@ -1,9 +1,12 @@
-import { loadObjModel } from './r3d/models';
 import { MeshWithBuffers } from 'webgl-obj-loader';
 import { Object3D } from './r3d/object3d';
 import { Camera3D } from './r3d/camera3d';
 import { Rectangle } from './r3d/rectangle';
 import { createTextureFromImage, loadImage } from './r3d/textures';
+import { skinExperiment } from './exp/skin';
+import { basic3dQuad } from './exp/3d';
+import { gltfTest } from './exp/gltfTest';
+import { loadObjModel } from './r3d/utility';
 
 const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   const model = (await loadObjModel(
@@ -64,6 +67,9 @@ const main = async (): Promise<void> => {
   // gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
   renderTest(gl);
+  // basic3dQuad(gl);
+  // skinExperiment(gl);
+  // gltfTest(gl);
 };
 
 main();
