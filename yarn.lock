@@ -124,6 +124,13 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.24.51.tgz#645f33fe4e02defe26f2f5c0410e1c094eac7f5f"
   integrity sha512-1P1OROm/rdubP5aFDSZQILU0vrLCJ4fvHt6EoqHEM+2D/G5MK3bIaymUKLit8Js9gbns5UyJnkP/TZROLw4tUA==
 
+"@super_raptor911/webgl-gltf@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@super_raptor911/webgl-gltf/-/webgl-gltf-0.3.5.tgz#c78d56b45225e79c3987fcf165c3413d9ccacc65"
+  integrity sha512-vqr0W8djMCYRYgG0VfSeFZjzl0dQAON/O3DD2mGihIxao+PATJ7HWghMgjiFrOckue5j6EY+JS03wGMzn3r1mw==
+  dependencies:
+    gl-matrix "^3.3.0"
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.4.tgz#8467d4b3c087805d63580480890791277ce35c44"
@@ -1952,13 +1959,6 @@ vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
-
-webgl-gltf@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/webgl-gltf/-/webgl-gltf-0.3.3.tgz#0a048069c775297b626f691275ee41ce60dd740e"
-  integrity sha512-2S31ABMk32NAspWOuyaUWjU5gzl8r/OQFQBewnetEK4C0FfZyngfeZ4IgqizraQGbAM8apz8ZC2hHVaKQDgBNg==
-  dependencies:
-    gl-matrix "^3.3.0"
 
 webgl-obj-loader@^2.0.8:
   version "2.0.8"

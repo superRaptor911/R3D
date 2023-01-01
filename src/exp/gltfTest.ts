@@ -7,9 +7,10 @@ layout (location=0) in vec4 vPosition;
 
 uniform mat4 uProjectionMatrix;
 uniform mat4 uViewMatrix;
+uniform mat4 uModelMatrix;
 
 void main() {
-    gl_Position = uProjectionMatrix * uViewMatrix * vPosition;
+    gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vPosition;
 }
 `;
 
@@ -27,6 +28,7 @@ export const gltfTest = (gl: WebGL2RenderingContext): void => {
   const program = createWebGLProgram(gl, vsSource, fsSource) as WebGLProgram;
   const pMatrix = mat4.create();
   const vMatrix = mat4.create();
+  const mMatrix = mat4.create();
 
   mat4.translate(vMatrix, vMatrix, vec3.fromValues(0.0, 0.0, -3.0));
   mat4.perspective(pMatrix, 45.0, 400 / 300, 0.1, 100.0);
@@ -44,12 +46,18 @@ export const gltfTest = (gl: WebGL2RenderingContext): void => {
     vMatrix,
   );
 
+  const mMatrixLoc = gl.getUniformLocation(program, 'uModelMatrix');
+
   // Load model
   gltf.loadModel(gl, 'build/assets/models/cube.gltf').then((model) => {
     gl.enableVertexAttribArray(0);
 
     const render = (): void => {
       gl.clear(gl.COLOR_BUFFER_BIT);
+
+      mat4.rotateX(mMatrix, mMatrix, 0.001);
+      mat4.rotateY(mMatrix, mMatrix, 0.001);
+      gl.uniformMatrix4fv(mMatrixLoc, false, mMatrix);
 
       const mesh = model.meshes[model.nodes[0].mesh as number];
 

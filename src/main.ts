@@ -8,6 +8,7 @@ import { basic3dQuad } from './exp/3d';
 import { gltfTest } from './exp/gltfTest';
 import { loadObjModel } from './r3d/utility';
 import { RectRenderer } from './r3d/rectRenderer';
+import { modelTest } from './exp/modelTest';
 
 const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   const model = (await loadObjModel(
@@ -64,14 +65,17 @@ const main = async (): Promise<void> => {
   }
   gl.clearColor(0.3, 0.3, 0.3, 1);
   gl.enable(gl.DEPTH_TEST);
+  gl.enable(gl.CULL_FACE);
+  gl.cullFace(gl.BACK);
   // gl.depthFunc(gl.GREATER);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
   // gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
-  renderTest(gl);
+  // renderTest(gl);
   // basic3dQuad(gl);
   // skinExperiment(gl);
   // gltfTest(gl);
+  modelTest(gl);
 };
 
 main();

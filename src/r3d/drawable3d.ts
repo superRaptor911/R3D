@@ -7,9 +7,4 @@ export class Drawable3D extends Entity3D {
     super();
     this.gl = gl;
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  draw(): void {
-    //
-  }
 }

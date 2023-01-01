@@ -1,25 +1,26 @@
-import { Drawable3D } from './drawable3d';
-import * as gltf from 'webgl-gltf';
+import * as gltf from '@super_raptor911/webgl-gltf';
 import { Entity3D } from './entity3d';
-import { Camera3D } from './camera3d';
 
-class MeshNode extends Entity3D {
+export class MeshNode extends Entity3D {
   node: gltf.Node;
   children: MeshNode[] = [];
 
   constructor(node: gltf.Node) {
     super();
     this.node = node;
+    this.fromTransform(node.localBindTransform);
   }
 }
 
-export class Model extends Drawable3D {
+export class Model extends Entity3D {
   _gltfModel: gltf.Model;
 
-  _nodes: MeshNode | null = null;
+  _rootNode: MeshNode | null = null;
 
-  constructor(gl: WebGL2RenderingContext, gltfModel: gltf.Model) {
-    super(gl);
+  _boneTexture: WebGLTexture | null = null;
+
+  constructor(gltfModel: gltf.Model) {
+    super();
     this._gltfModel = gltfModel;
     this.setupNodes();
   }
@@ -35,12 +36,28 @@ export class Model extends Drawable3D {
 
   setupNodes(): void {
     const m = this._gltfModel;
-    if (m.nodes.length > 0) {
-      const meshNode = new MeshNode(m.nodes[0]);
-      this._setupNodesRecursive(meshNode);
-      this._nodes = meshNode;
-    }
-  }
+    // const record: Record<number, boolean> = {};
+    // const meshNodes = m.nodes.map((node, id) => {
+    //   record[id] = false;
+    //   return new MeshNode(node);
+    // });
 
-  render(camera: Camera3D) {}
+    // m.nodes.forEach((node, id) => {
+    //   const meshNode = meshNodes[id];
+    //   node.children.forEach((childID) => {
+    //     meshNode.addChild(meshNodes[childID]);
+    //     record[childID] = true;
+    //   });
+    // });
+
+    // for (let i = 0; i < meshNodes.length; i++) {
+    //   if (record[i]) {
+    //     this._rootNode = meshNodes[i];
+    //     break;
+    //   }
+    // }
+
+    this._rootNode = new MeshNode(m.nodes[m.rootNode]);
+    this._setupNodesRecursive(this._rootNode);
+  }
 }

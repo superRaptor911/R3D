@@ -1,81 +1,85 @@
-import { mat4, quat2, vec3 } from 'gl-matrix';
+import { mat4, quat, vec3 } from 'gl-matrix';
 import { Entity } from './entity';
 
 export class Entity3D extends Entity {
-  mMatrix = mat4.create();
-  quat = quat2.create();
-  x = 0;
-  y = 0;
-  z = 0;
+  position = vec3.create();
+  scale = vec3.fromValues(1, 1, 1);
+  rotation = quat.create();
 
-  rotX = 0;
-  rotY = 0;
-  rotZ = 0;
-
+  _mMatrix = mat4.create();
   _isDirty = false;
 
   constructor() {
     super();
   }
 
+  get mMatrix(): mat4 {
+    this._update();
+    return this._mMatrix;
+  }
+
   setPosition(x: number, y: number, z: number): void {
-    this.x = x;
-    this.y = y;
-    this.z = z;
+    vec3.set(this.position, x, y, z);
     this._isDirty = true;
   }
 
   setRotation(x: number, y: number, z: number): void {
-    this.rotX = x;
-    this.rotY = y;
-    this.rotZ = z;
+    quat.fromEuler(this.rotation, x, y, z);
     console.error('entity3d::not implemented');
   }
 
   rotateX(rad: number): void {
-    quat2.rotateX(this.quat, this.quat, rad);
-    this.rotX += rad;
+    quat.rotateX(this.rotation, this.rotation, rad);
     this._isDirty = true;
   }
 
   rotateY(rad: number): void {
-    quat2.rotateY(this.quat, this.quat, rad);
-    this.rotY += rad;
+    quat.rotateY(this.rotation, this.rotation, rad);
     this._isDirty = true;
   }
 
   rotateZ(rad: number): void {
-    quat2.rotateZ(this.quat, this.quat, rad);
-    this.rotZ += rad;
+    quat.rotateZ(this.rotation, this.rotation, rad);
     this._isDirty = true;
   }
 
   translateX(val: number): void {
-    quat2.translate(this.quat, this.quat, vec3.fromValues(val, 0, 0));
-    this.x += val;
+    this.position[0] += val;
     this._isDirty = true;
   }
 
   translateY(val: number): void {
-    quat2.translate(this.quat, this.quat, vec3.fromValues(0, val, 0));
-    this.y += val;
+    this.position[1] += val;
     this._isDirty = true;
   }
 
   translateZ(val: number): void {
-    quat2.translate(this.quat, this.quat, vec3.fromValues(0, 0, val));
-    this.z += val;
+    this.position[2] += val;
     this._isDirty = true;
   }
 
   translate(x: number, y: number, z: number): void {
-    quat2.translate(this.quat, this.quat, vec3.fromValues(x, y, z));
+    this.position[0] += x;
+    this.position[1] += y;
+    this.position[2] += z;
     this._isDirty = true;
+  }
+
+  fromTransform(transform: mat4): void {
+    mat4.copy(this._mMatrix, transform);
+    mat4.getTranslation(this.position, transform);
+    mat4.getRotation(this.rotation, transform);
+    mat4.getScaling(this.scale, transform);
   }
 
   _update(): void {
     if (!this._isDirty) return;
-    mat4.fromQuat2(this.mMatrix, this.quat);
+    mat4.fromRotationTranslationScale(
+      this._mMatrix,
+      this.rotation,
+      this.position,
+      this.scale,
+    );
     this._isDirty = false;
   }
 }
