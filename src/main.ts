@@ -55,8 +55,8 @@ const main = async (): Promise<void> => {
     return;
   }
 
-  canvas.width = 1280;
-  canvas.height = 720;
+  canvas.width = 1336;
+  canvas.height = 768;
 
   const gl = canvas.getContext('webgl2');
   if (!gl) {

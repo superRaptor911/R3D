@@ -14,6 +14,7 @@ export const modelTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   const renderer = new ModelRenderer(gl, camera);
 
   camera.translateZ(5);
+  camera.translateY(2);
   console.log(model);
   const render = (): void => {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

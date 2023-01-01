@@ -23,3 +23,7 @@ export const createOBJMesh = (
   initMeshBuffers(gl, mesh);
   return mesh as MeshWithBuffers;
 };
+
+export const toRadians = (angle: number): number => {
+  return (Math.PI * angle) / 180.0;
+};
