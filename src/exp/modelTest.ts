@@ -4,17 +4,17 @@ import { Model } from '../r3d/model';
 import { ModelRenderer } from '../r3d/modelRenderer';
 
 export const modelTest = async (gl: WebGL2RenderingContext): Promise<void> => {
-  fetch('build/assets/models/untitled.gltf').then((res) =>
-    res.json().then((ans) => console.log(ans)),
-  );
+  // fetch('build/assets/models/untitled.gltf').then((res) =>
+  //   res.json().then((ans) => console.log(ans)),
+  // );
   const mdl = await gltf.loadModel(gl, 'build/assets/models/untitled.gltf');
   const model = new Model(mdl);
 
   const camera = new Camera3D();
   const renderer = new ModelRenderer(gl, camera);
 
-  camera.translateZ(5);
-  camera.translateY(2);
+  camera.translateZ(0);
+  camera.translateY(1);
   console.log(model);
   const render = (): void => {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

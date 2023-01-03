@@ -1,4 +1,5 @@
 import * as gltf from '@super_raptor911/webgl-gltf';
+import { mat4 } from 'gl-matrix';
 import { Entity3D } from './entity3d';
 
 export class MeshNode extends Entity3D {
@@ -17,7 +18,9 @@ export class Model extends Entity3D {
 
   _rootNode: MeshNode | null = null;
 
-  _boneTexture: WebGLTexture | null = null;
+  _boneMatrices: mat4[] = [];
+
+  bones: MeshNode[] = [];
 
   constructor(gltfModel: gltf.Model) {
     super();

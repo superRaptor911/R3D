@@ -25,7 +25,12 @@ export class Entity3D extends Entity {
 
   setRotation(x: number, y: number, z: number): void {
     quat.fromEuler(this.rotation, x, y, z);
-    console.error('entity3d::not implemented');
+    this._isDirty = true;
+  }
+
+  setScale(x: number, y: number, z: number): void {
+    vec3.set(this.scale, x, y, z);
+    this._isDirty = true;
   }
 
   rotateX(rad: number): void {
