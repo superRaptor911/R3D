@@ -7,7 +7,7 @@ layout(location=0) in vec3 aPos;
 layout(location=1) in vec3 aNormals;
 layout(location=2) in vec2 aTexCord;
 layout(location=3) in vec4 aWeights;
-layout(location=4) in uvec4 aJoints;
+layout(location=4) in vec4 aJoints;
 
 uniform vec3 uDiffuseLightDir;
 uniform mat4 uModel;
@@ -21,7 +21,7 @@ out float vBrightness;
 void main() {
     mat4 skinning = mat4(0);
     for (int i = 0; i < 4; i++) {
-        skinning += uJoints[aJoints[i]] * aWeights[i];
+        skinning += uJoints[int(aJoints[i])] * aWeights[i];
     }
 
     mat4 transform = uProjection * uView * uModel * skinning; 

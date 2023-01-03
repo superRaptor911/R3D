@@ -1,5 +1,5 @@
 import { Camera3D } from './camera3d';
-import { MeshNode, Model } from './model';
+import { Node, Model } from './model';
 import { createDefaultShader, IDefaultShader } from './shaders/defaultShader';
 import * as gltf from '@super_raptor911/webgl-gltf';
 import { mat4, vec3 } from 'gl-matrix';
@@ -105,14 +105,109 @@ export class ModelRenderer {
     gl.disableVertexAttribArray(2);
   }
 
-  drawNodes(model: gltf.Model, meshNode: MeshNode, transform: mat4): void {
+  drawSkinnedMesh(mesh: gltf.Mesh, transform: mat4): void {
+    const gl = this.gl;
+    const shader = this.skinShader;
+
+    gl.useProgram(shader.program);
+    // set positions
+    gl.enableVertexAttribArray(0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, mesh.positions.buffer);
+    gl.vertexAttribPointer(
+      shader.aPositions,
+      mesh.positions.size,
+      mesh.positions.type,
+      false,
+      0,
+      0,
+    );
+
+    // set normals
+    if (mesh.normals !== null) {
+      gl.enableVertexAttribArray(1);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mesh.normals.buffer);
+      gl.vertexAttribPointer(
+        shader.aNormals,
+        mesh.normals.size,
+        mesh.normals.type,
+        false,
+        0,
+        0,
+      );
+    }
+
+    // set texture coordinates
+    if (mesh.texCoord !== null) {
+      gl.enableVertexAttribArray(2);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mesh.texCoord.buffer);
+      gl.vertexAttribPointer(
+        shader.aTexCord,
+        mesh.texCoord.size,
+        mesh.texCoord.type,
+        false,
+        0,
+        0,
+      );
+    }
+
+    // Joints
+    if (mesh.joints !== null) {
+      gl.enableVertexAttribArray(shader.aJoints);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mesh.joints.buffer);
+      gl.vertexAttribPointer(
+        shader.aJoints,
+        mesh.joints.size,
+        mesh.joints.type,
+        false,
+        0,
+        0,
+      );
+    }
+
+    // Weights
+    if (mesh.weights !== null) {
+      gl.enableVertexAttribArray(shader.aWeights);
+      gl.bindBuffer(gl.ARRAY_BUFFER, mesh.weights.buffer);
+      gl.vertexAttribPointer(
+        shader.aWeights,
+        mesh.weights.size,
+        mesh.weights.type,
+        false,
+        0,
+        0,
+      );
+    }
+
+    // set mvp uniform
+    // prettier-ignore
+    gl.uniformMatrix4fv(shader.mMatrixLoc, false, transform);
+
+    if (mesh.indices) {
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, mesh.indices);
+      gl.drawElements(gl.TRIANGLES, mesh.elementCount, gl.UNSIGNED_SHORT, 0);
+    } else {
+      gl.drawArrays(gl.TRIANGLES, 0, mesh.elementCount);
+    }
+
+    gl.disableVertexAttribArray(0);
+    gl.disableVertexAttribArray(1);
+    gl.disableVertexAttribArray(2);
+    gl.disableVertexAttribArray(3);
+    gl.disableVertexAttribArray(4);
+  }
+
+  drawNodes(model: gltf.Model, meshNode: Node, transform: mat4): void {
     const newTransform = mat4.create();
     mat4.multiply(newTransform, transform, meshNode.mMatrix);
+
+    const isSkinned = meshNode.node.skin !== undefined;
 
     if (meshNode.node.mesh !== undefined) {
       const id = meshNode.node.mesh;
       const mesh = model.meshes[id];
-      this.drawMesh(mesh, newTransform);
+
+      if (isSkinned) this.drawSkinnedMesh(mesh, newTransform);
+      else this.drawMesh(mesh, newTransform);
     }
 
     meshNode.children.forEach((childNode) => {
@@ -134,6 +229,29 @@ export class ModelRenderer {
       false,
       this.camera.pMatrix,
     );
+
+    // Setup skin shader
+    if (model._skeleton) {
+      this.gl.useProgram(this.skinShader.program);
+      this.gl.uniformMatrix4fv(
+        this.skinShader.vMatrixLoc,
+        false,
+        this.camera.vMatrix,
+      );
+      this.gl.uniformMatrix4fv(
+        this.skinShader.pMatrixLoc,
+        false,
+        this.camera.pMatrix,
+      );
+
+      model._boneMatrices.forEach((matrix, id) =>
+        this.gl.uniformMatrix4fv(
+          this.skinShader.uJointsLocs[id],
+          false,
+          matrix,
+        ),
+      );
+    }
 
     this.drawNodes(model._gltfModel, model._rootNode, model.mMatrix);
   }

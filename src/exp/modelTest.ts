@@ -7,7 +7,7 @@ export const modelTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   // fetch('build/assets/models/untitled.gltf').then((res) =>
   //   res.json().then((ans) => console.log(ans)),
   // );
-  const mdl = await gltf.loadModel(gl, 'build/assets/models/untitled.gltf');
+  const mdl = await gltf.loadModel(gl, 'build/assets/models/robot.gltf');
   const model = new Model(mdl);
 
   const camera = new Camera3D();
@@ -21,6 +21,10 @@ export const modelTest = async (gl: WebGL2RenderingContext): Promise<void> => {
 
     // model.rotateX(0.001);
     model.rotateY(0.001);
+
+    // model.bones[2].rotateX(0.001);
+    // model._bonesModified = true;
+    // model.computeBoneMatrices();
     renderer.draw(model);
 
     requestAnimationFrame(render);
