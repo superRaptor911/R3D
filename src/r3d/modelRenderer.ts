@@ -196,6 +196,19 @@ export class ModelRenderer {
     gl.disableVertexAttribArray(4);
   }
 
+  applyMaterials(
+    shader: IDefaultShader | ISkinShader,
+    material: gltf.Material,
+  ): void {
+    const gl = this.gl;
+    gl.useProgram(shader.program);
+    if (material.baseColorTexture) {
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, material.baseColorTexture);
+      gl.uniform1i(shader.baseTextureLoc, 0);
+    }
+  }
+
   drawNodes(model: gltf.Model, meshNode: Node, transform: mat4): void {
     const newTransform = mat4.create();
     mat4.multiply(newTransform, transform, meshNode.mMatrix);
@@ -206,8 +219,20 @@ export class ModelRenderer {
       const id = meshNode.node.mesh;
       const mesh = model.meshes[id];
 
-      if (isSkinned) this.drawSkinnedMesh(mesh, newTransform);
-      else this.drawMesh(mesh, newTransform);
+      if (isSkinned) {
+        if (model.materials.length > mesh.material) {
+          this.applyMaterials(this.skinShader, model.materials[mesh.material]);
+        }
+        this.drawSkinnedMesh(mesh, newTransform);
+      } else {
+        if (model.materials.length > mesh.material) {
+          this.applyMaterials(
+            this.defaultShader,
+            model.materials[mesh.material],
+          );
+        }
+        this.drawMesh(mesh, newTransform);
+      }
     }
 
     meshNode.children.forEach((childNode) => {
