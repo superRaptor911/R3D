@@ -28,12 +28,12 @@ precision mediump float;
 
 in vec2 vTexCord;
 in float vBrightness;
-uniform sampler2D uSampler;
+uniform sampler2D baseTexture;
 
 out vec4 fragColor;
 
 void main() {
-    vec4 color = texture(uSampler, vTexCord) + vec4(1.0);
+    vec4 color = texture(baseTexture, vTexCord) + vec4(1.0);
     fragColor = 0.2 * color + 0.8 * color * vBrightness; 
     fragColor.a = 1.0;
 }
@@ -44,7 +44,7 @@ export interface IDefaultShader {
   mMatrixLoc: WebGLUniformLocation;
   vMatrixLoc: WebGLUniformLocation;
   pMatrixLoc: WebGLUniformLocation;
-  uSamplerLoc: WebGLUniformLocation;
+  baseTextureLoc: WebGLUniformLocation;
   uLightDirLoc: WebGLUniformLocation;
   aPositions: number;
   aNormals: number;
@@ -60,7 +60,7 @@ export const createDefaultShader = (
   const mMatrixLoc = gl.getUniformLocation(program, 'uModel');
   const vMatrixLoc = gl.getUniformLocation(program, 'uView');
   const pMatrixLoc = gl.getUniformLocation(program, 'uProjection');
-  const uSamplerLoc = gl.getUniformLocation(program, 'uSampler');
+  const baseTextureLoc = gl.getUniformLocation(program, 'baseTexture');
   const uLightDirLoc = gl.getUniformLocation(program, 'uDiffuseLightDir');
 
   if (!mMatrixLoc) {
@@ -74,8 +74,8 @@ export const createDefaultShader = (
     throw 'Failed to get pMatrixLoc uniform location for default shader';
   }
 
-  if (!uSamplerLoc) {
-    throw 'Failed to get SamplerLoc uniform location for default shader';
+  if (!baseTextureLoc) {
+    throw 'Failed to get baseTexture uniform location for default shader';
   }
 
   if (!uLightDirLoc) {
@@ -87,7 +87,7 @@ export const createDefaultShader = (
     mMatrixLoc,
     vMatrixLoc,
     pMatrixLoc,
-    uSamplerLoc,
+    baseTextureLoc,
     uLightDirLoc,
     aPositions: 0,
     aNormals: 1,
