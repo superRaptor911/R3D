@@ -9,6 +9,7 @@ import { gltfTest } from './exp/gltfTest';
 import { loadObjModel } from './r3d/utility';
 import { RectRenderer } from './r3d/rectRenderer';
 import { modelTest } from './exp/modelTest';
+import { bonesTest } from './exp/bonesTest';
 
 const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   const model = (await loadObjModel(
@@ -75,7 +76,8 @@ const main = async (): Promise<void> => {
   // basic3dQuad(gl);
   // skinExperiment(gl);
   // gltfTest(gl);
-  modelTest(gl);
+  // modelTest(gl);
+  bonesTest(gl);
 };
 
 main();
