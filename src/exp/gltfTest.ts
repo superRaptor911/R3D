@@ -1,5 +1,5 @@
 import { mat4, vec3 } from 'gl-matrix';
-import * as gltf from 'webgl-gltf';
+import * as gltf from '@super_raptor911/webgl-gltf';
 import { createWebGLProgram } from '../r3d/shaders';
 
 const vsSource = `#version 300 es
