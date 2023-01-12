@@ -5,6 +5,7 @@ export class Entity3D extends Entity {
   position = vec3.create();
   scale = vec3.fromValues(1, 1, 1);
   rotation = quat.create();
+  wMatrix = mat4.create();
 
   _mMatrix = mat4.create();
   _isDirty = false;

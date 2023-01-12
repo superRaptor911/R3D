@@ -210,27 +210,24 @@ export class ModelRenderer {
   }
 
   drawNodes(model: gltf.Model, meshNode: Node, transform: mat4): void {
+    mat4.copy(meshNode.wMatrix, transform);
     const newTransform = mat4.create();
     mat4.multiply(newTransform, transform, meshNode.mMatrix);
-
-    const isSkinned = meshNode.node.skin !== undefined;
 
     if (meshNode.node.mesh !== undefined) {
       const id = meshNode.node.mesh;
       const mesh = model.meshes[id];
 
+      const isSkinned = meshNode.node.skin !== undefined;
+      const shader = isSkinned ? this.skinShader : this.defaultShader;
+
+      if (model.materials.length > mesh.material) {
+        this.applyMaterials(shader, model.materials[mesh.material]);
+      }
+
       if (isSkinned) {
-        if (model.materials.length > mesh.material) {
-          this.applyMaterials(this.skinShader, model.materials[mesh.material]);
-        }
         this.drawSkinnedMesh(mesh, newTransform);
       } else {
-        if (model.materials.length > mesh.material) {
-          this.applyMaterials(
-            this.defaultShader,
-            model.materials[mesh.material],
-          );
-        }
         this.drawMesh(mesh, newTransform);
       }
     }
@@ -240,35 +237,22 @@ export class ModelRenderer {
     });
   }
 
+  _setupCameraData(shader: ISkinShader | IDefaultShader): void {
+    this.gl.useProgram(shader.program);
+    this.gl.uniformMatrix4fv(shader.vMatrixLoc, false, this.camera.vMatrix);
+    this.gl.uniformMatrix4fv(shader.pMatrixLoc, false, this.camera.pMatrix);
+  }
+
   draw(model: Model): void {
     if (!model._rootNode) return;
 
-    this.gl.useProgram(this.defaultShader.program);
-    this.gl.uniformMatrix4fv(
-      this.defaultShader.vMatrixLoc,
-      false,
-      this.camera.vMatrix,
-    );
-    this.gl.uniformMatrix4fv(
-      this.defaultShader.pMatrixLoc,
-      false,
-      this.camera.pMatrix,
-    );
+    this._setupCameraData(this.defaultShader);
 
     // Setup skin shader
     if (model._skeleton) {
-      this.gl.useProgram(this.skinShader.program);
-      this.gl.uniformMatrix4fv(
-        this.skinShader.vMatrixLoc,
-        false,
-        this.camera.vMatrix,
-      );
-      this.gl.uniformMatrix4fv(
-        this.skinShader.pMatrixLoc,
-        false,
-        this.camera.pMatrix,
-      );
+      this._setupCameraData(this.skinShader);
 
+      model.computeBoneMatrices();
       model._boneMatrices.forEach((matrix, id) =>
         this.gl.uniformMatrix4fv(
           this.skinShader.uJointsLocs[id],
