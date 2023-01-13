@@ -1,11 +1,10 @@
 {
   "name": "@super_raptor911/render3d",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple 3D graphics framework wsing webgl",
   "type": "module",
   "main": "./lib/es6/src/index.js",
   "types": "./lib/es6/src/index.d.ts",
-  "module": "./lib/es5/src/index.js",
   "repository": "https://github.com/superRaptor911/R3D.git",
   "engines": {
     "node": ">= 16.13"
@@ -49,7 +48,7 @@
     "build": "node esbuild.config.js",
     "lint": "eslint . --ext .ts --ext .mts",
     "prettier": "prettier --config .prettierrc --write .",
-    "compile": "rm -rf dist/lib && tsc && tsc --build tsconfig.es5.json",
+    "compile": "rm -rf dist/lib && tsc",
     "watch": "npm-watch",
     "pub": "npm publish --access=public"
   },
