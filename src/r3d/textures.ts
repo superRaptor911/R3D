@@ -1,6 +1,7 @@
 export const createTextureFromMedia = (
   gl: WebGL2RenderingContext,
   image: HTMLImageElement | HTMLVideoElement,
+  genMinmap = true,
 ): WebGLTexture | null => {
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -16,7 +17,7 @@ export const createTextureFromMedia = (
     image,
   );
 
-  gl.generateMipmap(gl.TEXTURE_2D);
+  genMinmap && gl.generateMipmap(gl.TEXTURE_2D);
   gl.bindTexture(gl.TEXTURE_2D, null);
   return texture;
 };
@@ -39,7 +40,6 @@ export const updateTextureFromMedia = (
     image,
   );
 
-  gl.generateMipmap(gl.TEXTURE_2D);
   gl.bindTexture(gl.TEXTURE_2D, null);
 };
 
