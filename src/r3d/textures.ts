@@ -1,6 +1,6 @@
-export const createTextureFromImage = (
+export const createTextureFromMedia = (
   gl: WebGL2RenderingContext,
-  image: HTMLImageElement,
+  image: HTMLImageElement | HTMLVideoElement,
 ): WebGLTexture | null => {
   const texture = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -19,6 +19,28 @@ export const createTextureFromImage = (
   gl.generateMipmap(gl.TEXTURE_2D);
   gl.bindTexture(gl.TEXTURE_2D, null);
   return texture;
+};
+
+export const updateTextureFromMedia = (
+  gl: WebGL2RenderingContext,
+  texture: WebGLTexture,
+  image: HTMLImageElement | HTMLVideoElement,
+): void => {
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.texImage2D(
+    gl.TEXTURE_2D,
+    0,
+    gl.RGB,
+    image.width,
+    image.height,
+    0,
+    gl.RGB,
+    gl.UNSIGNED_BYTE,
+    image,
+  );
+
+  gl.generateMipmap(gl.TEXTURE_2D);
+  gl.bindTexture(gl.TEXTURE_2D, null);
 };
 
 export const loadImage = (src: string): Promise<HTMLImageElement> =>
