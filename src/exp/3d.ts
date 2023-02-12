@@ -1,4 +1,4 @@
-import { mat4, vec4 } from 'gl-matrix';
+import { mat4, vec3, vec4 } from 'gl-matrix';
 import { Camera3D } from '../r3d/camera3d';
 import { createWebGLProgram } from '../r3d/shaders';
 
@@ -24,8 +24,8 @@ precision mediump float;
 out vec4 fragColor;
 
 void main () {
-    fragColor = vec4(1.0);
-    // fragColor = vec4(0.25, 0.8, 0.4, 1.0);
+    // fragColor = vec4(0.5);
+    fragColor = vec4(0.25, 0.8, 0.4, 1.0);
 }
 `;
 
@@ -76,6 +76,7 @@ export const basic3dQuad = (gl: WebGL2RenderingContext): void => {
   mat4.multiply(m, cam.pMatrix, cam.vMatrix);
   const pos = vec4.fromValues(0, 0, 0, 1);
   vec4.transformMat4(pos, pos, m);
+  mat4.scale(m, m, vec3.fromValues(10, 10, 10));
   console.log('pos ', pos);
   const render = (): void => {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

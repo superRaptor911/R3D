@@ -1,4 +1,9 @@
+import { basic3dQuad } from './exp/3d';
 import { bonesTest } from './exp/bonesTest';
+import { gltfTest } from './exp/gltfTest';
+import { lineTest } from './exp/lineTest';
+import { modelTest } from './exp/modelTest';
+import { skinExperiment } from './exp/skin';
 
 // const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
 //   const model = (await loadObjModel(
@@ -67,6 +72,7 @@ const main = async (): Promise<void> => {
   // gltfTest(gl);
   // modelTest(gl);
   bonesTest(gl);
+  // lineTest(gl);
 };
 
 main();

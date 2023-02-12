@@ -48,7 +48,7 @@
     "build": "node esbuild.config.js",
     "lint": "eslint . --ext .ts --ext .mts",
     "prettier": "prettier --config .prettierrc --write .",
-    "compile": "rm -rf dist/lib && tsc",
+    "compile": "rm -rf lib/ && tsc",
     "watch": "npm-watch",
     "pub": "npm publish --access=public"
   },

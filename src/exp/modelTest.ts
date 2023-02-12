@@ -4,24 +4,31 @@ import { Model } from '../r3d/model';
 import { ModelRenderer } from '../r3d/modelRenderer';
 
 export const modelTest = async (gl: WebGL2RenderingContext): Promise<void> => {
-  // fetch('build/assets/models/untitled.gltf').then((res) =>
-  //   res.json().then((ans) => console.log(ans)),
-  // );
-  const mdl = await gltf.loadModel(gl, 'build/assets/models/robot.gltf');
+  fetch('build/assets/models/scene.gltf').then((res) =>
+    res.json().then((ans) => console.log(ans)),
+  );
+
+  fetch('build/assets/models/robot.gltf').then((res) =>
+    res.json().then((ans) => console.log(ans)),
+  );
+  const mdl = await gltf.loadModel(gl, 'build/assets/models/suzanne.gltf');
   const model = new Model(mdl);
 
   const camera = new Camera3D();
   const renderer = new ModelRenderer(gl, camera);
 
-  camera.translateZ(0);
+  // camera.translateZ(10);
+  camera.translateZ(2);
   camera.translateY(1);
+  // camera.translateY(-5);
   console.log(model);
+  // model.setScale(0.1, 0.1, 0.1);
   model.setScale(2, 2, 2);
   const render = (): void => {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // model.rotateX(0.001);
-    model.rotateY(0.001);
+    model.rotateY(0.01);
 
     // model.bones[2].rotateX(0.001);
     // model._bonesModified = true;

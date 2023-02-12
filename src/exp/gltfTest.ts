@@ -49,7 +49,7 @@ export const gltfTest = (gl: WebGL2RenderingContext): void => {
   const mMatrixLoc = gl.getUniformLocation(program, 'uModelMatrix');
 
   // Load model
-  gltf.loadModel(gl, 'build/assets/models/cube.gltf').then((model) => {
+  gltf.loadModel(gl, 'build/assets/models/robot.gltf').then((model) => {
     gl.enableVertexAttribArray(0);
 
     const render = (): void => {
@@ -59,7 +59,7 @@ export const gltfTest = (gl: WebGL2RenderingContext): void => {
       mat4.rotateY(mMatrix, mMatrix, 0.001);
       gl.uniformMatrix4fv(mMatrixLoc, false, mMatrix);
 
-      const mesh = model.meshes[model.nodes[0].mesh as number];
+      const mesh = model.meshes[0];
 
       gl.bindBuffer(gl.ARRAY_BUFFER, mesh.positions.buffer);
       gl.vertexAttribPointer(

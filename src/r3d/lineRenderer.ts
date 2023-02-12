@@ -16,7 +16,7 @@ export class LineRenderer {
     if (!vBuffer) throw 'Failed to create vertex buffer';
 
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, null, gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, 4 * 128, gl.DYNAMIC_DRAW);
     this._vertexBuffer = vBuffer;
   }
 

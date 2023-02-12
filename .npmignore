@@ -12,6 +12,7 @@ coverage
 # Transpiled files
 build/
 dist/lib/
+lib/es6/src/exp
 
 # VS Code
 .vscode

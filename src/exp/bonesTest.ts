@@ -8,7 +8,7 @@ export const bonesTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   // fetch('build/assets/models/untitled.gltf').then((res) =>
   //   res.json().then((ans) => console.log(ans)),
   // );
-  const mdl = await gltf.loadModel(gl, 'build/assets/models/robot.gltf');
+  const mdl = await gltf.loadModel(gl, 'build/assets/models/launcher.gltf');
   const model = new Model(mdl);
 
   const camera = new Camera3D();
