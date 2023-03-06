@@ -1,6 +1,7 @@
 // import { basic3dQuad } from "./exp/3d";
 // import { gltfTest } from "./exp/gltfTest";
 // import { lineTest } from "./exp/lineTest";
+import { lineTest } from "./exp/lineTest";
 import { modelTest } from "./exp/modelTest";
 // import { skinExperiment } from "./exp/skin";
 
@@ -69,9 +70,9 @@ const main = async (): Promise<void> => {
   // basic3dQuad(gl);
   // skinExperiment(gl);
   // gltfTest(gl);
-  modelTest(gl);
+  // modelTest(gl);
   // bonesTest(gl);
-  // lineTest(gl);
+  lineTest(gl);
 };
 
 main();
