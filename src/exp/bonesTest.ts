@@ -1,14 +1,14 @@
-import * as gltf from '@super_raptor911/webgl-gltf';
-import { mat4 } from 'gl-matrix';
-import { Camera3D } from '../r3d/camera3d';
-import { Model } from '../r3d/model';
-import { ModelRenderer } from '../r3d/modelRenderer';
+import * as gltf from "@super_raptor911/webgl-gltf";
+import { mat4 } from "gl-matrix";
+import { Camera3D } from "../r3d/camera3d";
+import { Model } from "../r3d/model";
+import { ModelRenderer } from "../r3d/modelRenderer";
 
 export const bonesTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   // fetch('build/assets/models/untitled.gltf').then((res) =>
   //   res.json().then((ans) => console.log(ans)),
   // );
-  const mdl = await gltf.loadModel(gl, 'build/assets/models/launcher.gltf');
+  const mdl = await gltf.loadModel(gl, "models/robot.gltf");
   const model = new Model(mdl);
 
   const camera = new Camera3D();
