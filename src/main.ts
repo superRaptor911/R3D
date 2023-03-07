@@ -2,7 +2,6 @@
 // import { gltfTest } from "./exp/gltfTest";
 // import { lineTest } from "./exp/lineTest";
 import { lineTest } from "./exp/lineTest";
-import { modelTest } from "./exp/modelTest";
 // import { skinExperiment } from "./exp/skin";
 
 // const renderTest = async (gl: WebGL2RenderingContext): Promise<void> => {
