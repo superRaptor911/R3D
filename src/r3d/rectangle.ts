@@ -1,4 +1,4 @@
-import { mat3, mat4, vec2, vec4 } from "gl-matrix";
+import { mat3, vec2, vec4 } from "gl-matrix";
 
 export class Rectangle {
   _width = 1;

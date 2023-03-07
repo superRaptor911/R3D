@@ -1,9 +1,4 @@
-// import { basic3dQuad } from "./exp/3d";
-// import { gltfTest } from "./exp/gltfTest";
-// import { lineTest } from "./exp/lineTest";
-import { lineTest } from "./exp/lineTest";
 import { rectangleTest } from "./exp/rectTest";
-// import { skinExperiment } from "./exp/skin";
 
 const main = async (): Promise<void> => {
   const canvas = document.getElementById("game") as HTMLCanvasElement;
