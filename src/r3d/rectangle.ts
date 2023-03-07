@@ -1,4 +1,4 @@
-import { mat3, vec2, vec4 } from 'gl-matrix';
+import { mat3, mat4, vec2, vec4 } from "gl-matrix";
 
 export class Rectangle {
   _width = 1;
@@ -32,20 +32,19 @@ export class Rectangle {
   _update(): void {
     if (!this._isDirty) return;
 
-    const x = this._x;
-    const y = this._y;
+    const x = this._x * 2 - 1;
+    const y = this._y * 2 - 1;
 
-    const proj = mat3.create();
+    const w = this._width * 2;
+    const h = this._height * 2;
+
     const scale = mat3.create();
     const trans = mat3.create();
 
-    mat3.projection(proj, 1, 1);
-    mat3.fromScaling(scale, vec2.fromValues(this._width, this._height));
+    mat3.fromScaling(scale, vec2.fromValues(w, h));
     mat3.fromTranslation(trans, vec2.fromValues(x, y));
-
     mat3.multiply(this._mMatrix, trans, scale);
-    mat3.multiply(this._mMatrix, proj, this._mMatrix);
-
+    // mat3.multiply(this._mMatrix, scale, trans);
     this._isDirty = false;
   }
 }

@@ -1,4 +1,4 @@
-import { createWebGLProgram } from '../shaders';
+import { createWebGLProgram } from "../shaders";
 
 const vShaderSource = `#version 300 es
 layout(location=0) in vec2 aPos;
@@ -8,7 +8,7 @@ uniform mat3 uModel;
 out vec2 vTexCord;
 
 void main() {
-    gl_Position  = vec4((uModel * vec3(aPos, 1.0)).xy, 0.9999, 1.0);
+    gl_Position  = vec4((uModel * vec3(aPos, 1.0)).xy, 0.5, 1.0);
     vTexCord = aTexCord;
 }
 `;
@@ -36,21 +36,21 @@ export interface IRectShader {
 
 export const createRectShader = (gl: WebGL2RenderingContext): IRectShader => {
   const program = createWebGLProgram(gl, vShaderSource, fShaderSource);
-  if (!program) throw 'Failed to create rectangle shader';
+  if (!program) throw "Failed to create rectangle shader";
 
-  const uModelLoc = gl.getUniformLocation(program, 'uModel');
-  const uColorLoc = gl.getUniformLocation(program, 'uColor');
-  const uSamplerLoc = gl.getUniformLocation(program, 'uSampler');
+  const uModelLoc = gl.getUniformLocation(program, "uModel");
+  const uColorLoc = gl.getUniformLocation(program, "uColor");
+  const uSamplerLoc = gl.getUniformLocation(program, "uSampler");
 
   if (!uModelLoc) {
-    throw 'Failed to get uModel uniform location for rect';
+    throw "Failed to get uModel uniform location for rect";
   }
   if (!uColorLoc) {
-    throw 'Failed to get uColorLoc uniform location for rect';
+    throw "Failed to get uColorLoc uniform location for rect";
   }
 
   if (!uSamplerLoc) {
-    throw 'Failed to get SamplerLoc uniform location for rect';
+    throw "Failed to get SamplerLoc uniform location for rect";
   }
 
   return {
