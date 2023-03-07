@@ -12,13 +12,14 @@ export class Line {
     x2: number,
     y2: number,
     color = 0xffffff,
-    thickness = 1
+    thickness = 1,
+    z = 0
   ) {
     x1 = x1 * 2 - 1;
     x2 = x2 * 2 - 1;
     y1 = 1 - y1 * 2;
     y2 = 1 - y2 * 2;
-    this._data = new Float32Array([x1, y1, 0, x2, y2, 0]);
+    this._data = new Float32Array([x1, y1, z, x2, y2, z]);
     this.thickness = thickness;
 
     this.rgba = colorFromInteger(color);
@@ -42,5 +43,10 @@ export class Line {
 
   setColor(color: number): void {
     this.rgba = colorFromInteger(color);
+  }
+
+  setDepth(value: number): void {
+    this._data[2] = value;
+    this._data[5] = value;
   }
 }
