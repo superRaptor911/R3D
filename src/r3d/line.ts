@@ -20,7 +20,12 @@ export class Line {
     y2 = 1 - y2 * 2;
     this._data = new Float32Array([x1, y1, 0, x2, y2, 0]);
     this.thickness = thickness;
+
     this.rgba = colorFromInteger(color);
+    this.rgba[0] /= 255;
+    this.rgba[1] /= 255;
+    this.rgba[2] /= 255;
+    this.rgba[3] /= 255;
   }
 
   setPoints(x1: number, y1: number, x2: number, y2: number): void {

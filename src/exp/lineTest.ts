@@ -3,7 +3,7 @@ import { LineRenderer } from "../r3d/lineRenderer";
 
 export const lineTest = (gl: WebGL2RenderingContext): void => {
   const renderer = new LineRenderer(gl);
-  const line = new Line(0, 0, 0.5, 1, 0x000000);
+  const line = new Line(0, 0, 0.5, 1, 0x2233ff);
   line.setPoints(0, 0.5, 1, 0.5);
 
   const render = (): void => {

@@ -31,13 +31,7 @@ export class LineRenderer {
     gl.enableVertexAttribArray(this._shader.aPosLoc);
     gl.vertexAttribPointer(this._shader.aPosLoc, 3, gl.FLOAT, false, 0, 0);
 
-    gl.uniform4f(
-      this._shader.uColorLoc,
-      color[0],
-      color[1],
-      color[2],
-      color[3]
-    );
+    gl.uniform4fv(this._shader.uColorLoc, color);
     gl.drawArrays(gl.LINES, 0, data.length / 2);
     gl.disableVertexAttribArray(this._shader.aPosLoc);
   }
