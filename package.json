@@ -2,7 +2,7 @@
 
   "name": "@super_raptor911/render3d",
 
-  "version": "0.1.4",
+  "version": "0.1.5",
 
   "description": "A simple 3D graphics framework wsing webgl",
 
