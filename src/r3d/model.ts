@@ -1,6 +1,6 @@
-import * as gltf from '@super_raptor911/webgl-gltf';
-import { mat4 } from 'gl-matrix';
-import { Entity3D } from './entity3d';
+import * as gltf from "@super_raptor911/webgl-gltf";
+import { mat4 } from "gl-matrix";
+import { Entity3D } from "./entity3d";
 
 export class Node extends Entity3D {
   node: gltf.Node;
@@ -29,7 +29,7 @@ export class Model extends Entity3D {
 
   _rootNode: Node | null = null;
 
-  _skeleton: Skeleton | null = null;
+  _skeletons: Skeleton[] = [];
   _boneMatrices: mat4[] = [];
   _bonesModified = true;
   bones: Node[] = [];
@@ -49,50 +49,67 @@ export class Model extends Entity3D {
   }
 
   _setupNodes(): void {
-    const m = this._gltfModel;
-    // const record: Record<number, boolean> = {};
-    const meshNodes = m.nodes.map((node) => {
+    const mdl = this._gltfModel;
+    const meshNodes = mdl.nodes.map((node) => {
       return new Node(node);
     });
 
-    this._rootNode = meshNodes[m.rootNode];
+    this._rootNode = meshNodes[mdl.rootNode];
     this._setupNodesRecursive(meshNodes, this._rootNode);
 
     // setup bones
-    if (m.skins.length > 0) {
-      const skin = m.skins[0];
+    if (mdl.skins.length > 0) {
+      const skin = mdl.skins[0];
+
+      console.log(skin);
       this.bones = skin.joints.map((jointID) => {
         this._boneMatrices.push(mat4.create());
         return meshNodes[jointID];
       });
 
       if (this.bones.length > 0) {
-        const skeleton = new Skeleton(0, skin.inverseBindTransforms[0]);
-        this._skeleton = skeleton;
-        this._setupSkeleton(skeleton, 0);
+        let boneID = 0;
+
+        while (boneID < this.bones.length) {
+          console.log(boneID);
+          const skeleton = new Skeleton(
+            boneID,
+            skin.inverseBindTransforms[boneID]
+          );
+          boneID = this._setupSkeleton(skeleton, boneID);
+          this._skeletons.push(skeleton);
+        }
+
         this.computeBoneMatrices();
         this._printSkeletonStructure();
       }
     }
   }
 
-  _setupSkeleton(skeleton: Skeleton, id: number): void {
+  _setupSkeleton(skeleton: Skeleton, id: number): number {
+    let nextId = id + 1;
     const skin = this._gltfModel.skins[0];
     for (let i = id + 1; i < this.bones.length; i++) {
       if (this.bones[i].parent == this.bones[id]) {
         const newSkeleton = new Skeleton(i, skin.inverseBindTransforms[i]);
-        this._setupSkeleton(newSkeleton, i);
+        nextId = this._setupSkeleton(newSkeleton, i);
         skeleton.skeletons.push(newSkeleton);
       }
     }
+    return nextId;
   }
 
   _printSkeletonStructure(level = 0, skeleton?: Skeleton): void {
-    const s = skeleton || this._skeleton;
-    if (s) {
-      const bone = this.bones[s.boneID];
-      console.log('-'.repeat(level), bone.node.name);
-      s.skeletons.forEach((sc) => this._printSkeletonStructure(level + 1, sc));
+    if (skeleton) {
+      const bone = this.bones[skeleton.boneID];
+      console.log("-".repeat(level), bone.node.name);
+      skeleton.skeletons.forEach((sc) =>
+        this._printSkeletonStructure(level + 1, sc)
+      );
+    } else {
+      this._skeletons.forEach((skeleton) =>
+        this._printSkeletonStructure(0, skeleton)
+      );
     }
   }
 
@@ -104,8 +121,10 @@ export class Model extends Entity3D {
   }
 
   computeBoneMatrices(): void {
-    if (!this._bonesModified || !this._skeleton) return;
-    this._computeSkeletonMatrix(this._skeleton, mat4.create());
+    if (!this._bonesModified || !this._skeletons) return;
+    this._skeletons.forEach((skeleton) =>
+      this._computeSkeletonMatrix(skeleton, mat4.create())
+    );
     this._bonesModified = false;
   }
 }

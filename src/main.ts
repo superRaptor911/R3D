@@ -1,4 +1,4 @@
-import { rectangleTest } from "./exp/rectTest";
+import { bonesTest } from "./exp/bonesTest";
 
 const main = async (): Promise<void> => {
   const canvas = document.getElementById("game") as HTMLCanvasElement;
@@ -21,16 +21,16 @@ const main = async (): Promise<void> => {
   gl.cullFace(gl.BACK);
   // gl.depthFunc(gl.GREATER);
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+  // gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
   // renderTest(gl);
   // basic3dQuad(gl);
   // skinExperiment(gl);
   // gltfTest(gl);
   // modelTest(gl);
-  // bonesTest(gl);
+  bonesTest(gl);
   // lineTest(gl);
-  rectangleTest(gl);
+  // rectangleTest(gl);
 };
 
 main();

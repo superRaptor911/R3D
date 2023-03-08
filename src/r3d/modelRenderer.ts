@@ -1,9 +1,9 @@
-import { Camera3D } from './camera3d';
-import { Node, Model } from './model';
-import { createDefaultShader, IDefaultShader } from './shaders/defaultShader';
-import * as gltf from '@super_raptor911/webgl-gltf';
-import { mat4, vec3 } from 'gl-matrix';
-import { createSkinShader, ISkinShader } from './shaders/skinShader';
+import { Camera3D } from "./camera3d";
+import { Node, Model } from "./model";
+import { createDefaultShader, IDefaultShader } from "./shaders/defaultShader";
+import * as gltf from "@super_raptor911/webgl-gltf";
+import { mat4, vec3 } from "gl-matrix";
+import { createSkinShader, ISkinShader } from "./shaders/skinShader";
 
 export class ModelRenderer {
   camera: Camera3D;
@@ -16,7 +16,7 @@ export class ModelRenderer {
   constructor(
     gl: WebGL2RenderingContext,
     camera: Camera3D,
-    lightDir = vec3.fromValues(1, 1, 0),
+    lightDir = vec3.fromValues(1, 1, 0)
   ) {
     this.camera = camera;
     this.gl = gl;
@@ -32,7 +32,7 @@ export class ModelRenderer {
       this.defaultShader.uLightDirLoc,
       this.lightDir[0],
       this.lightDir[1],
-      this.lightDir[2],
+      this.lightDir[2]
     );
 
     this.gl.useProgram(this.skinShader.program);
@@ -40,7 +40,7 @@ export class ModelRenderer {
       this.skinShader.uLightDirLoc,
       this.lightDir[0],
       this.lightDir[1],
-      this.lightDir[2],
+      this.lightDir[2]
     );
   }
 
@@ -58,7 +58,7 @@ export class ModelRenderer {
       mesh.positions.type,
       false,
       0,
-      0,
+      0
     );
 
     // set normals
@@ -71,7 +71,7 @@ export class ModelRenderer {
         mesh.normals.type,
         false,
         0,
-        0,
+        0
       );
     }
 
@@ -85,7 +85,7 @@ export class ModelRenderer {
         mesh.texCoord.type,
         false,
         0,
-        0,
+        0
       );
     }
 
@@ -119,7 +119,7 @@ export class ModelRenderer {
       mesh.positions.type,
       false,
       0,
-      0,
+      0
     );
 
     // set normals
@@ -132,7 +132,7 @@ export class ModelRenderer {
         mesh.normals.type,
         false,
         0,
-        0,
+        0
       );
     }
 
@@ -146,7 +146,7 @@ export class ModelRenderer {
         mesh.texCoord.type,
         false,
         0,
-        0,
+        0
       );
     }
 
@@ -160,7 +160,7 @@ export class ModelRenderer {
         mesh.joints.type,
         false,
         0,
-        0,
+        0
       );
     }
 
@@ -174,7 +174,7 @@ export class ModelRenderer {
         mesh.weights.type,
         false,
         0,
-        0,
+        0
       );
     }
 
@@ -198,7 +198,7 @@ export class ModelRenderer {
 
   applyMaterials(
     shader: IDefaultShader | ISkinShader,
-    material: gltf.Material,
+    material: gltf.Material
   ): void {
     const gl = this.gl;
     gl.useProgram(shader.program);
@@ -249,16 +249,12 @@ export class ModelRenderer {
     this._setupCameraData(this.defaultShader);
 
     // Setup skin shader
-    if (model._skeleton) {
+    if (model._skeletons) {
       this._setupCameraData(this.skinShader);
 
       model.computeBoneMatrices();
       model._boneMatrices.forEach((matrix, id) =>
-        this.gl.uniformMatrix4fv(
-          this.skinShader.uJointsLocs[id],
-          false,
-          matrix,
-        ),
+        this.gl.uniformMatrix4fv(this.skinShader.uJointsLocs[id], false, matrix)
       );
     }
 

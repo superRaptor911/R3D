@@ -1,4 +1,4 @@
-import { createWebGLProgram } from '../shaders';
+import { createWebGLProgram } from "../shaders";
 
 const maxJoints = 20;
 
@@ -43,7 +43,7 @@ uniform sampler2D baseTexture;
 out vec4 fragColor;
 
 void main() {
-    vec4 color = texture(baseTexture, vTexCord) * vec4(1.0);
+    vec4 color = texture(baseTexture, vTexCord) + vec4(1.0);
     fragColor = 0.2 * color + 0.8 * color * vBrightness; 
     fragColor.a = 1.0;
 }
@@ -67,13 +67,13 @@ export interface ISkinShader {
 
 export const createSkinShader = (gl: WebGL2RenderingContext): ISkinShader => {
   const program = createWebGLProgram(gl, vShaderSource, fShaderSource);
-  if (!program) throw 'Failed to create rectangle shader';
+  if (!program) throw "Failed to create rectangle shader";
 
-  const mMatrixLoc = gl.getUniformLocation(program, 'uModel');
-  const vMatrixLoc = gl.getUniformLocation(program, 'uView');
-  const pMatrixLoc = gl.getUniformLocation(program, 'uProjection');
-  const baseTextureLoc = gl.getUniformLocation(program, 'baseTexture');
-  const uLightDirLoc = gl.getUniformLocation(program, 'uDiffuseLightDir');
+  const mMatrixLoc = gl.getUniformLocation(program, "uModel");
+  const vMatrixLoc = gl.getUniformLocation(program, "uView");
+  const pMatrixLoc = gl.getUniformLocation(program, "uProjection");
+  const baseTextureLoc = gl.getUniformLocation(program, "baseTexture");
+  const uLightDirLoc = gl.getUniformLocation(program, "uDiffuseLightDir");
 
   const uJointsLocs: WebGLUniformLocation[] = [];
 
@@ -87,22 +87,22 @@ export const createSkinShader = (gl: WebGL2RenderingContext): ISkinShader => {
   }
 
   if (!mMatrixLoc) {
-    throw 'Failed to get uModel uniform location for skin shader';
+    throw "Failed to get uModel uniform location for skin shader";
   }
   if (!vMatrixLoc) {
-    throw 'Failed to get uColorLoc uniform location for skin shader';
+    throw "Failed to get uColorLoc uniform location for skin shader";
   }
 
   if (!pMatrixLoc) {
-    throw 'Failed to get pMatrixLoc uniform location for skin shader';
+    throw "Failed to get pMatrixLoc uniform location for skin shader";
   }
 
   if (!baseTextureLoc) {
-    throw 'Failed to get baseTexture uniform location for skin shader';
+    throw "Failed to get baseTexture uniform location for skin shader";
   }
 
   if (!uLightDirLoc) {
-    throw 'Failed to get uDiffuseLightDir uniform location for skin shader';
+    throw "Failed to get uDiffuseLightDir uniform location for skin shader";
   }
 
   return {
