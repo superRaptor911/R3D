@@ -71,7 +71,6 @@ export class Model extends Entity3D {
         let boneID = 0;
 
         while (boneID < this.bones.length) {
-          console.log(boneID);
           const skeleton = new Skeleton(
             boneID,
             skin.inverseBindTransforms[boneID]

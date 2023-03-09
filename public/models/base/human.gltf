@@ -8,7 +8,7 @@
         {
             "name" : "Scene",
             "nodes" : [
-                18
+                17
             ]
         }
     ],
@@ -353,26 +353,16 @@
             ]
         },
         {
-            "name" : "neutral_bone",
-            "rotation" : [
-                -0.7071068286895752,
-                0,
-                0,
-                0.7071068286895752
-            ]
-        },
-        {
             "mesh" : 0,
             "name" : "Cube.001",
             "skin" : 0
         },
         {
             "children" : [
-                17,
+                16,
                 7,
                 11,
-                15,
-                16
+                15
             ],
             "name" : "Armature.001",
             "rotation" : [
@@ -406,12 +396,13 @@
             "primitives" : [
                 {
                     "attributes" : {
-                        "POSITION" : 0,
-                        "NORMAL" : 1,
-                        "JOINTS_0" : 2,
-                        "WEIGHTS_0" : 3
+                        "COLOR_0" : 0,
+                        "POSITION" : 1,
+                        "NORMAL" : 2,
+                        "JOINTS_0" : 3,
+                        "WEIGHTS_0" : 4
                     },
-                    "indices" : 4,
+                    "indices" : 5,
                     "material" : 0
                 }
             ]
@@ -419,7 +410,7 @@
     ],
     "skins" : [
         {
-            "inverseBindMatrices" : 5,
+            "inverseBindMatrices" : 6,
             "joints" : [
                 7,
                 0,
@@ -436,8 +427,7 @@
                 15,
                 14,
                 13,
-                12,
-                16
+                12
             ],
             "name" : "Armature.001"
         }
@@ -445,6 +435,13 @@
     "accessors" : [
         {
             "bufferView" : 0,
+            "componentType" : 5123,
+            "count" : 2466,
+            "normalized" : true,
+            "type" : "VEC4"
+        },
+        {
+            "bufferView" : 1,
             "componentType" : 5126,
             "count" : 2466,
             "max" : [
@@ -460,76 +457,82 @@
             "type" : "VEC3"
         },
         {
-            "bufferView" : 1,
+            "bufferView" : 2,
             "componentType" : 5126,
             "count" : 2466,
             "type" : "VEC3"
         },
         {
-            "bufferView" : 2,
+            "bufferView" : 3,
             "componentType" : 5121,
             "count" : 2466,
             "type" : "VEC4"
         },
         {
-            "bufferView" : 3,
+            "bufferView" : 4,
             "componentType" : 5126,
             "count" : 2466,
             "type" : "VEC4"
         },
         {
-            "bufferView" : 4,
+            "bufferView" : 5,
             "componentType" : 5123,
             "count" : 3624,
             "type" : "SCALAR"
         },
         {
-            "bufferView" : 5,
+            "bufferView" : 6,
             "componentType" : 5126,
-            "count" : 17,
+            "count" : 16,
             "type" : "MAT4"
         }
     ],
     "bufferViews" : [
         {
             "buffer" : 0,
-            "byteLength" : 29592,
+            "byteLength" : 19728,
             "byteOffset" : 0,
             "target" : 34962
         },
         {
             "buffer" : 0,
             "byteLength" : 29592,
-            "byteOffset" : 29592,
+            "byteOffset" : 19728,
+            "target" : 34962
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 29592,
+            "byteOffset" : 49320,
             "target" : 34962
         },
         {
             "buffer" : 0,
             "byteLength" : 9864,
-            "byteOffset" : 59184,
+            "byteOffset" : 78912,
             "target" : 34962
         },
         {
             "buffer" : 0,
             "byteLength" : 39456,
-            "byteOffset" : 69048,
+            "byteOffset" : 88776,
             "target" : 34962
         },
         {
             "buffer" : 0,
             "byteLength" : 7248,
-            "byteOffset" : 108504,
+            "byteOffset" : 128232,
             "target" : 34963
         },
         {
             "buffer" : 0,
-            "byteLength" : 1088,
-            "byteOffset" : 115752
+            "byteLength" : 1024,
+            "byteOffset" : 135480
         }
     ],
     "buffers" : [
         {
-            "byteLength" : 116840,
+            "byteLength" : 136504,
             "uri" : "human.bin"
         }
     ]
