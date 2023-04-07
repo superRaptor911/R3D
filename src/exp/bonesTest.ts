@@ -1,5 +1,4 @@
 import * as gltf from "@super_raptor911/webgl-gltf";
-import { mat4 } from "gl-matrix";
 import { Camera3D } from "../r3d/camera3d";
 import { Model } from "../r3d/model";
 import { ModelRenderer } from "../r3d/modelRenderer";
