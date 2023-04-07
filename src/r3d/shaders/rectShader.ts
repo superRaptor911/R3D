@@ -8,7 +8,7 @@ uniform mat3 uModel;
 out vec2 vTexCord;
 
 void main() {
-    gl_Position  = vec4((uModel * vec3(aPos, 1.0)).xy, 0.5, 1.0);
+    gl_Position  = vec4((uModel * vec3(aPos, 1.0)).xy, 0.9999, 1.0);
     vTexCord = aTexCord;
 }
 `;
