@@ -25,9 +25,9 @@ export class Entity3D extends Entity {
   }
 
   setRotation(x: number, y: number, z: number): void {
-    const xAngle = (x * Math.PI) / 180;
-    const yAngle = (y * Math.PI) / 180;
-    const zAngle = (z * Math.PI) / 180;
+    const xAngle = (x * 180) / Math.PI;
+    const yAngle = (y * 180) / Math.PI;
+    const zAngle = (z * 180) / Math.PI;
 
     quat.fromEuler(this.rotation, xAngle, yAngle, zAngle);
     this._isDirty = true;
