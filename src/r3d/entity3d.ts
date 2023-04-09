@@ -1,5 +1,5 @@
-import { mat4, quat, vec3 } from 'gl-matrix';
-import { Entity } from './entity';
+import { mat4, quat, vec3 } from "gl-matrix";
+import { Entity } from "./entity";
 
 export class Entity3D extends Entity {
   position = vec3.create();
@@ -25,7 +25,11 @@ export class Entity3D extends Entity {
   }
 
   setRotation(x: number, y: number, z: number): void {
-    quat.fromEuler(this.rotation, x, y, z);
+    const xAngle = (x * Math.PI) / 180;
+    const yAngle = (y * Math.PI) / 180;
+    const zAngle = (z * Math.PI) / 180;
+
+    quat.fromEuler(this.rotation, xAngle, yAngle, zAngle);
     this._isDirty = true;
   }
 
@@ -84,7 +88,7 @@ export class Entity3D extends Entity {
       this._mMatrix,
       this.rotation,
       this.position,
-      this.scale,
+      this.scale
     );
     this._isDirty = false;
   }
