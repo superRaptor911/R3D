@@ -1,6 +1,6 @@
 {
     "name": "@super_raptor911/render3d",
-    "version": "0.1.14",
+    "version": "0.1.15",
     "description": "A simple 3D graphics framework wsing webgl",
     "type": "module",
     "main": "./lib/es6/src/index.js",
