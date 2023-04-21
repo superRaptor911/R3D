@@ -113,6 +113,7 @@ export class Model extends Entity3D {
   }
 
   _computeSkeletonMatrix(s: Skeleton, transform: mat4): void {
+    mat4.copy(this.bones[s.boneID].wMatrix, transform);
     const newTransform = this._boneMatrices[s.boneID];
     mat4.multiply(newTransform, transform, this.bones[s.boneID].mMatrix);
     s.skeletons.forEach((sc) => this._computeSkeletonMatrix(sc, newTransform));
