@@ -1,5 +1,5 @@
 import { bonesTest } from "./exp/bonesTest";
-import { skinExperiment } from "./exp/skin";
+// import { skinExperiment } from "./exp/skin";
 
 const main = async (): Promise<void> => {
   const canvas = document.getElementById("game") as HTMLCanvasElement;
