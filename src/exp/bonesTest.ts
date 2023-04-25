@@ -9,18 +9,12 @@ export const bonesTest = async (gl: WebGL2RenderingContext): Promise<void> => {
   const mdl = await gltf.loadModel(gl, "models/base/human.gltf");
   const model = new Model(mdl);
 
-  const camera = new Camera3D();
+  const camera = new Camera3D(75, 16 / 9, false);
   const renderer = new ModelRenderer(gl, camera);
 
   camera.translateZ(3);
   camera.translateY(1);
   const bone = model.bones[3];
-
-  mat4.invert(bone.wMatrix, bone.wMatrix);
-  bone.setRotation(0, 0, 0);
-  bone.setPosition(2, 2, 0);
-  mat4.multiply(bone.mMatrix, bone.wMatrix, bone.mMatrix);
-  model._bonesModified = true;
 
   // model.setScale(2, 2, 2);
   const render = (): void => {
@@ -32,6 +26,13 @@ export const bonesTest = async (gl: WebGL2RenderingContext): Promise<void> => {
     // bone.setPosition(6, 0, 0);
     // model._bonesModified = true;
     renderer.draw(model);
+
+    mat4.invert(bone.wMatrix, bone.wMatrix);
+    // bone.setRotation(1.54, 0, 1.54);
+    bone.setRotation(0, 0, 0);
+    // bone.setPosition(2, 2, 0);
+    mat4.multiply(bone.mMatrix, bone.wMatrix, bone.mMatrix);
+    model._bonesModified = true;
 
     requestAnimationFrame(render);
   };
