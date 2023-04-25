@@ -43,7 +43,7 @@ uniform sampler2D baseTexture;
 out vec4 fragColor;
 
 void main() {
-    vec4 color = texture(baseTexture, vTexCord) + vec4(1.0);
+    vec4 color = texture(baseTexture, vTexCord);
     fragColor = 0.2 * color + 0.8 * color * vBrightness; 
     fragColor.a = 1.0;
 }
